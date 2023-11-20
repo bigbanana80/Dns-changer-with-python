@@ -1,7 +1,10 @@
 import token
 from mainui import Ui_MainWindow
+from dialogbox import Ui_Dialog
 from PyQt5 import QtCore, QtGui, QtWidgets
 import PyQt5
+
+#######
 import sys
 import psutil
 import json
@@ -9,13 +12,15 @@ from os import listdir
 from os.path import isfile, join
 import os
 
+#######
 # variables that i should i not touch (prob) as they are for startup
 addrs = psutil.net_if_addrs()
 configs = [f for f in listdir("Configs") if isfile(join("Configs", f))]
 
 
-class config:
+class config(Ui_MainWindow, Ui_Dialog):
     def __init__(self, name: str, dns1: str, dns2: str) -> None:
+        super(config, self).__init__()
         self.name = name
         self.dns1 = dns1
         self.dns2 = dns2
