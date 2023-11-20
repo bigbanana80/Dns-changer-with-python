@@ -23,7 +23,6 @@ class config:
         self.name = name
         self.dns1 = dns1
         self.dns2 = dns2
-        self.btn_signals()
 
     def save_json(self):
         values = {"name": self.name, "dns1": self.dns1, "dns2": self.dns2}
