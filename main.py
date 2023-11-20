@@ -31,7 +31,7 @@ class config:
 
 
 def add():
-    print("add")
+    dialog.show()
 
 
 def edit():
@@ -50,12 +50,21 @@ def flush():
     print("flush")
 
 
-# startup section
+# startup section #
 app = QtWidgets.QApplication(sys.argv)
 MainWindow = QtWidgets.QMainWindow()
 ui = Ui_MainWindow()
 ui.setupUi(MainWindow)
+###################
 
+# dialogbox #
+dialog = QtWidgets.QDialog()
+dialog_ui = Ui_Dialog()
+dialog_ui.setup_dialogUi(dialog)
+dialog.hide()
+############
+
+# startup tasks thats you probably shouldn't touch #
 for x in addrs.keys():
     ui.comboBox.addItem(x)
 ui.comboBox.setCurrentText("Wi-Fi")
@@ -63,13 +72,15 @@ ui.comboBox.setCurrentText("Wi-Fi")
 ui.list_dns.clear()
 for x in configs:
     ui.list_dns.addItem(os.path.splitext(x)[0])
+###################################################
 
+# signals #
 ui.btn_add.pressed.connect(add)
 ui.btn_edit.pressed.connect(edit)
 ui.btn_delete.pressed.connect(delete)
 ui.btn_activate.pressed.connect(activate)
 ui.btn_flush.pressed.connect(flush)
-
+###########
 
 MainWindow.show()
 sys.exit(app.exec_())
