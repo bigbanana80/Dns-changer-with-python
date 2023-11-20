@@ -12,22 +12,26 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 
 
 class Ui_Dialog(object):
-    def setupUi(self, Dialog):
+    def setup_dialogUi(self, Dialog):
         Dialog.setObjectName("Dialog")
         Dialog.resize(248, 251)
-        Dialog.setStyleSheet("QDialog{\n"
-"color:rgb(255, 255, 255);\n"
-"background-color:rgb(0, 0, 0)\n"
-"}\n"
-"QLabel{\n"
-"color:rgb(255, 255, 255);\n"
-"}")
+        Dialog.setStyleSheet(
+            "QDialog{\n"
+            "color:rgb(255, 255, 255);\n"
+            "background-color:rgb(0, 0, 0)\n"
+            "}\n"
+            "QLabel{\n"
+            "color:rgb(255, 255, 255);\n"
+            "}"
+        )
         self.btnbox_k_or_cancel = QtWidgets.QDialogButtonBox(Dialog)
         self.btnbox_k_or_cancel.setGeometry(QtCore.QRect(60, 210, 161, 32))
         self.btnbox_k_or_cancel.setLayoutDirection(QtCore.Qt.LeftToRight)
         self.btnbox_k_or_cancel.setAutoFillBackground(False)
         self.btnbox_k_or_cancel.setOrientation(QtCore.Qt.Horizontal)
-        self.btnbox_k_or_cancel.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel|QtWidgets.QDialogButtonBox.Ok)
+        self.btnbox_k_or_cancel.setStandardButtons(
+            QtWidgets.QDialogButtonBox.Cancel | QtWidgets.QDialogButtonBox.Ok
+        )
         self.btnbox_k_or_cancel.setObjectName("btnbox_k_or_cancel")
         self.name_input = QtWidgets.QLineEdit(Dialog)
         self.name_input.setGeometry(QtCore.QRect(90, 50, 113, 20))
@@ -52,8 +56,8 @@ class Ui_Dialog(object):
         self.label_4.setObjectName("label_4")
 
         self.retranslateUi(Dialog)
-        self.btnbox_k_or_cancel.accepted.connect(Dialog.accept) # type: ignore
-        self.btnbox_k_or_cancel.rejected.connect(Dialog.reject) # type: ignore
+        self.btnbox_k_or_cancel.accepted.connect(Dialog.accept)  # type: ignore
+        self.btnbox_k_or_cancel.rejected.connect(Dialog.reject)  # type: ignore
         QtCore.QMetaObject.connectSlotsByName(Dialog)
 
     def retranslateUi(self, Dialog):
@@ -62,14 +66,17 @@ class Ui_Dialog(object):
         self.label.setText(_translate("Dialog", "Name :"))
         self.label_2.setText(_translate("Dialog", "1st DNS :"))
         self.label_3.setText(_translate("Dialog", "2nd DNS :"))
-        self.label_4.setText(_translate("Dialog", "Don\'t forget to write dns in \"# . # . # . #\" "))
+        self.label_4.setText(
+            _translate("Dialog", 'Don\'t forget to write dns in "# . # . # . #" ')
+        )
 
 
 if __name__ == "__main__":
     import sys
+
     app = QtWidgets.QApplication(sys.argv)
     Dialog = QtWidgets.QDialog()
     ui = Ui_Dialog()
-    ui.setupUi(Dialog)
+    ui.setup_dialogUi(Dialog)
     Dialog.show()
     sys.exit(app.exec_())

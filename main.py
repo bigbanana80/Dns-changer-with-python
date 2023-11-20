@@ -18,17 +18,37 @@ addrs = psutil.net_if_addrs()
 configs = [f for f in listdir("Configs") if isfile(join("Configs", f))]
 
 
-class config(Ui_MainWindow, Ui_Dialog):
+class config:
     def __init__(self, name: str, dns1: str, dns2: str) -> None:
-        super(config, self).__init__()
         self.name = name
         self.dns1 = dns1
         self.dns2 = dns2
+        self.btn_signals()
 
     def save_json(self):
         values = {"name": self.name, "dns1": self.dns1, "dns2": self.dns2}
         with open(f"Configs/{self.name}.json", "w") as file:
             json.dump(values, file, indent=6)
+
+
+def add():
+    print("add")
+
+
+def edit():
+    print("edit")
+
+
+def delete():
+    print("delete")
+
+
+def activate():
+    print("activate")
+
+
+def flush():
+    print("flush")
 
 
 # startup section
@@ -44,6 +64,13 @@ ui.comboBox.setCurrentText("Wi-Fi")
 ui.list_dns.clear()
 for x in configs:
     ui.list_dns.addItem(os.path.splitext(x)[0])
+
+ui.btn_add.pressed.connect(add)
+ui.btn_edit.pressed.connect(edit)
+ui.btn_delete.pressed.connect(delete)
+ui.btn_activate.pressed.connect(activate)
+ui.btn_flush.pressed.connect(flush)
+
 
 MainWindow.show()
 sys.exit(app.exec_())
