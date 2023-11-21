@@ -42,12 +42,22 @@ def delete():
     print("delete")
 
 
-def activate():
-    print("activate")
+def get_dns(list_dns: QtWidgets.QListWidget):
+    name = list_dns.currentItem().text()
+    with open(f"Configs/{name}.json", "r") as file:
+        data: dict = json.load(file)
+    conf = config(data["name"], data["dns1"], data["dns2"])
+    return conf
+
+
+def activate(dns: config, interface):
+    os.system(f'netsh interface ip set dns name="{interface}" static  {dns.dns1}')
+    os.system(f'netsh interface ip add dns name="{interface}"  {dns.dns2} index="2"')
+    os.system("ipconfig /flushdns")
 
 
 def flush():
-    print("flush")
+    os.system("ipconfig /flushdns")
 
 
 # startup section #
@@ -78,7 +88,7 @@ for x in configs:
 ui.btn_add.pressed.connect(add)
 ui.btn_edit.pressed.connect(edit)
 ui.btn_delete.pressed.connect(delete)
-ui.btn_activate.pressed.connect(activate)
+ui.btn_activate.pressed.connect(activate(get_dns(ui.list_dns), ui.comboBox.currentText))
 ui.btn_flush.pressed.connect(flush)
 ###########
 
