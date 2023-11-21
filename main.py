@@ -250,9 +250,7 @@ class Ui_MainWindow(object):
         self.btn_add.clicked.connect(add)
         self.btn_edit.clicked.connect(edit)
         self.btn_delete.clicked.connect(delete)
-        self.btn_activate.clicked.connect(
-            activate(get_dns(self.list_dns), self.comboBox.currentText)
-        )
+        self.btn_activate.clicked.connect(activate)
         self.btn_flush.clicked.connect(flush)
 
 
@@ -282,15 +280,17 @@ def delete():
     print("delete")
 
 
-def get_dns(list_dns: QtWidgets.QListWidget):
-    name = list_dns.currentItem().text()
+def get_dns():
+    name = ui.list_dns.currentItem().text()
     with open(f"Configs/{name}.json", "r") as file:
         data: dict = json.load(file)
     conf = config(data["name"], data["dns1"], data["dns2"])
     return conf
 
 
-def activate(dns: config, interface):
+def activate():
+    dns = get_dns()
+    interface = ui.comboBox.currentText()
     os.system(f'netsh interface ip set dns name="{interface}" static  {dns.dns1}')
     os.system(f'netsh interface ip add dns name="{interface}"  {dns.dns2} index="2"')
     os.system("ipconfig /flushdns")
@@ -324,7 +324,6 @@ ui.list_dns.clear()
 for x in configs:
     ui.list_dns.addItem(os.path.splitext(x)[0])
 ###################################################
-ui.btn_activate.setDisabled(True)
 ui.connections()
 MainWindow.show()
 sys.exit(app.exec_())
