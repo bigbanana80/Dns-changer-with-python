@@ -282,7 +282,14 @@ def add():
 
 
 def edit():
-    print("edit")
+    if ui.list_dns.currentItem() == None:
+        print("no item")
+    else:
+        conf = get_dns()
+        dialog_ui.name_input.setText(conf.name)
+        dialog_ui.dns1_input.setText(conf.dns1)
+        dialog_ui.dns2_input.setText(conf.dns2)
+        dialog.show()
 
 
 def delete():
