@@ -62,6 +62,7 @@ class Ui_Dialog(object):
 
         self.retranslateUi(Dialog)
         self.btnbox_k_or_cancel.accepted.connect(Dialog.accept)  # type: ignore
+        self.btnbox_k_or_cancel.accepted.connect(self.save_dns)  # type: ignore
         self.btnbox_k_or_cancel.rejected.connect(Dialog.reject)  # type: ignore
         QtCore.QMetaObject.connectSlotsByName(Dialog)
 
@@ -74,6 +75,14 @@ class Ui_Dialog(object):
         self.label_4.setText(
             _translate("Dialog", 'Don\'t forget to write dns in "# . # . # . #" ')
         )
+
+    def save_dns(self):
+        name = self.name_input.text()
+        dns1 = self.dns1_input.text()
+        dns2 = self.dns2_input.text()
+        values = config(name, dns1, dns2)
+        values.save_json()
+        refresh_list()
 
 
 class Ui_MainWindow(object):
@@ -301,6 +310,13 @@ def activate():
 
 def flush():
     os.system("ipconfig /flushdns")
+
+
+def refresh_list():
+    configs = [f for f in listdir("Configs") if isfile(join("Configs", f))]
+    ui.list_dns.clear()
+    for x in configs:
+        ui.list_dns.addItem(os.path.splitext(x)[0])
 
 
 dns_token = config("", "", "")
