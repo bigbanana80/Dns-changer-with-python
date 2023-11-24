@@ -293,7 +293,10 @@ def activate():
     interface = ui.comboBox.currentText()
     os.system(f'netsh interface ip set dns name="{interface}" static  {dns.dns1}')
     os.system(f'netsh interface ip add dns name="{interface}"  {dns.dns2} index="2"')
-    os.system("ipconfig /flushdns")
+    if ui.flush_checkbox.isChecked():
+        os.system("ipconfig /flushdns")
+    else:
+        pass
 
 
 def flush():
