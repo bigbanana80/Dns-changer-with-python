@@ -293,7 +293,12 @@ def edit():
 
 
 def delete():
-    print("delete")
+    conf = get_dns()
+    try:
+        os.remove(f"Configs/{conf.name}.json")
+    except:
+        print("no such file")
+    refresh_list()
 
 
 def get_dns():
