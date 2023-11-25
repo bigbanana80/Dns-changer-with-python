@@ -1,6 +1,7 @@
 import token
 from PyQt5 import QtCore, QtGui, QtWidgets
 import PyQt5
+import dns.resolver
 
 #######
 import sys
@@ -11,7 +12,7 @@ from os.path import isfile, join
 import os
 
 #######
-# variables that i should i not touch (prob) as they are for startup
+# variables that i should not touch (prob) as they are for startup
 addrs = psutil.net_if_addrs()
 configs = [f for f in listdir("Configs") if isfile(join("Configs", f))]
 
@@ -201,19 +202,19 @@ class Ui_MainWindow(object):
         self.btn_edit.setGeometry(QtCore.QRect(320, 100, 81, 31))
         self.btn_edit.setObjectName("btn_edit")
         self.List_dns1 = QtWidgets.QLabel(self.centralwidget)
-        self.List_dns1.setGeometry(QtCore.QRect(310, 170, 47, 13))
+        self.List_dns1.setGeometry(QtCore.QRect(310, 170, 110, 13))
         self.List_dns1.setObjectName("List_dns1")
         self.List_dns2 = QtWidgets.QLabel(self.centralwidget)
-        self.List_dns2.setGeometry(QtCore.QRect(310, 190, 41, 20))
+        self.List_dns2.setGeometry(QtCore.QRect(310, 190, 110, 20))
         self.List_dns2.setObjectName("List_dns2")
         self.label_3 = QtWidgets.QLabel(self.centralwidget)
         self.label_3.setGeometry(QtCore.QRect(310, 260, 47, 13))
         self.label_3.setObjectName("label_3")
         self.Active_dns1 = QtWidgets.QLabel(self.centralwidget)
-        self.Active_dns1.setGeometry(QtCore.QRect(310, 280, 47, 13))
+        self.Active_dns1.setGeometry(QtCore.QRect(310, 280, 110, 13))
         self.Active_dns1.setObjectName("Active_dns1")
         self.Active_dns2 = QtWidgets.QLabel(self.centralwidget)
-        self.Active_dns2.setGeometry(QtCore.QRect(310, 300, 47, 13))
+        self.Active_dns2.setGeometry(QtCore.QRect(310, 300, 110, 13))
         self.Active_dns2.setObjectName("Active_dns2")
         self.flush_checkbox = QtWidgets.QCheckBox(self.centralwidget)
         self.flush_checkbox.setGeometry(QtCore.QRect(320, 140, 70, 17))
@@ -246,11 +247,11 @@ class Ui_MainWindow(object):
         self.btn_activate.setText(_translate("MainWindow", "Activate DNS"))
         self.btn_add.setText(_translate("MainWindow", "Add new dns"))
         self.btn_edit.setText(_translate("MainWindow", "Edit dns"))
-        self.List_dns1.setText(_translate("MainWindow", "DNS 1 :"))
-        self.List_dns2.setText(_translate("MainWindow", "DNS 2 :"))
+        self.List_dns1.setText(_translate("MainWindow", "--"))
+        self.List_dns2.setText(_translate("MainWindow", "--"))
         self.label_3.setText(_translate("MainWindow", "Active :"))
         self.Active_dns1.setText(_translate("MainWindow", "DNS 1"))
-        self.Active_dns2.setText(_translate("MainWindow", "DNS 1"))
+        self.Active_dns2.setText(_translate("MainWindow", "DNS 2"))
         self.flush_checkbox.setText(_translate("MainWindow", "Auto Flush"))
         self.btn_delete.setText(_translate("MainWindow", "DeL"))
 
@@ -261,6 +262,7 @@ class Ui_MainWindow(object):
         self.btn_delete.clicked.connect(delete)
         self.btn_activate.clicked.connect(activate)
         self.btn_flush.clicked.connect(flush)
+        self.list_dns.clicked.connect(refresh_selected_dns_labels)
 
 
 class config(Ui_MainWindow):
@@ -331,30 +333,47 @@ def refresh_list():
         ui.list_dns.addItem(os.path.splitext(x)[0])
 
 
-dns_token = config("", "", "")
-# startup section #
-app = QtWidgets.QApplication(sys.argv)
-MainWindow = QtWidgets.QMainWindow()
-ui = Ui_MainWindow()
-ui.setupUi(MainWindow)
-###################
+def refresh_selected_dns_labels():
+    conf = get_dns()
+    ui.List_dns1.setText(f"{conf.dns1}")
+    ui.List_dns2.setText(f"{conf.dns2}")
 
-# dialogbox #
-dialog = QtWidgets.QDialog()
-dialog_ui = Ui_Dialog()
-dialog_ui.setup_dialogUi(dialog)
-dialog.hide()
-############
 
-# startup tasks thats you probably shouldn't touch #
-for x in addrs.keys():
-    ui.comboBox.addItem(x)
-ui.comboBox.setCurrentText("Wi-Fi")
+def refresh_active_dns_labels():
+    dns_resolver = dns.resolver.Resolver()
+    ui.Active_dns1.setText(dns_resolver.nameservers[0])
+    ui.Active_dns2.setText(dns_resolver.nameservers[1])
 
-ui.list_dns.clear()
-for x in configs:
-    ui.list_dns.addItem(os.path.splitext(x)[0])
-###################################################
-ui.connections()
-MainWindow.show()
-sys.exit(app.exec_())
+
+if __name__ == "__main__":
+    dns_token = config("", "", "")
+    # startup section #
+    app = QtWidgets.QApplication(sys.argv)
+    MainWindow = QtWidgets.QMainWindow()
+    ui = Ui_MainWindow()
+    ui.setupUi(MainWindow)
+    ###################
+
+    # dialogbox #
+    dialog = QtWidgets.QDialog()
+    dialog_ui = Ui_Dialog()
+    dialog_ui.setup_dialogUi(dialog)
+    dialog.hide()
+    ############
+
+    # startup tasks thats you probably shouldn't touch #
+    for x in addrs.keys():
+        ui.comboBox.addItem(x)
+    ui.comboBox.setCurrentText("Wi-Fi")
+
+    ui.list_dns.clear()
+    for x in configs:
+        ui.list_dns.addItem(os.path.splitext(x)[0])
+    refresh_active_dns_labels()
+    timer = QtCore.QTimer()
+    timer.timeout.connect(refresh_active_dns_labels)
+    timer.start(10000)
+    ###################################################
+    ui.connections()
+    MainWindow.show()
+    sys.exit(app.exec_())
