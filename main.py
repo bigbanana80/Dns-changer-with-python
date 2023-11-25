@@ -11,6 +11,11 @@ from os import listdir
 from os.path import isfile, join
 import os
 
+# dirname = os.path.dirname(__file__)
+# filename = os.path.join(dirname, "Configs")
+# print(filename)
+# if not os.path.exists(filename):
+#     os.mkdir(filename)
 #######
 # variables that i should not touch (prob) as they are for startup
 addrs = psutil.net_if_addrs()
@@ -140,9 +145,7 @@ class Ui_MainWindow(object):
         MainWindow.setAcceptDrops(False)
         icon = QtGui.QIcon()
         icon.addPixmap(
-            QtGui.QPixmap(
-                "../../../Users/PC/OneDrive/Pictures/Icons/Windows office pro/CP - Network and Internet.ico"
-            ),
+            QtGui.QPixmap("CP - Network and Internet.ico"),
             QtGui.QIcon.Normal,
             QtGui.QIcon.Off,
         )
