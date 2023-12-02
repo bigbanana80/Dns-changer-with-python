@@ -70,6 +70,7 @@ class Ui_Dialog(object):
         self.btnbox_k_or_cancel.accepted.connect(Dialog.accept)  # type: ignore
         self.btnbox_k_or_cancel.accepted.connect(self.save_dns)  # type: ignore
         self.btnbox_k_or_cancel.rejected.connect(Dialog.reject)  # type: ignore
+        self.btnbox_k_or_cancel.rejected.connect(self.clear)  # type: ignore
         QtCore.QMetaObject.connectSlotsByName(Dialog)
 
     def retranslateUi(self, Dialog):
@@ -90,15 +91,20 @@ class Ui_Dialog(object):
         values.save_json()
         refresh_list()
 
+    def clear(self):
+        dialog_ui.dns1_input.clear()
+        dialog_ui.dns2_input.clear()
+        dialog_ui.name_input.clear()
+
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.setWindowModality(QtCore.Qt.NonModal)
         MainWindow.setEnabled(True)
-        MainWindow.resize(429, 435)
-        MainWindow.setMinimumSize(QtCore.QSize(429, 435))
-        MainWindow.setMaximumSize(QtCore.QSize(429, 435))
+        MainWindow.resize(429, 535)
+        MainWindow.setMinimumSize(QtCore.QSize(429, 535))
+        MainWindow.setMaximumSize(QtCore.QSize(429, 535))
         palette = QtGui.QPalette()
         brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
         brush.setStyle(QtCore.Qt.SolidPattern)
@@ -228,6 +234,9 @@ class Ui_MainWindow(object):
         self.btn_delete = QtWidgets.QPushButton(self.centralwidget)
         self.btn_delete.setGeometry(QtCore.QRect(390, 100, 31, 31))
         self.btn_delete.setObjectName("btn_delete")
+        self.log = QtWidgets.QTextBrowser(self.centralwidget)
+        self.log.setGeometry(QtCore.QRect(20, 420, 381, 91))
+        self.log.setObjectName("log")
         MainWindow.setCentralWidget(self.centralwidget)
         self.menuBar = QtWidgets.QMenuBar(MainWindow)
         self.menuBar.setGeometry(QtCore.QRect(0, 0, 429, 21))
@@ -278,7 +287,10 @@ class config(Ui_MainWindow):
         values = {"name": self.name, "dns1": self.dns1, "dns2": self.dns2}
         with open(f"Configs/{self.name}.json", "w") as file:
             json.dump(values, file, indent=6)
-
+        dialog_ui.dns1_input.clear()
+        dialog_ui.dns2_input.clear()
+        dialog_ui.name_input.clear()
+        ui.log.append(f"file added or modified: {self.name}")
         ###########
 
 
@@ -301,6 +313,7 @@ def delete():
     conf = get_dns()
     try:
         os.remove(f"Configs/{conf.name}.json")
+        ui.log.append(f"File deleted: {conf.name}")
     except:
         print("no such file")
     refresh_list()
@@ -321,12 +334,14 @@ def activate():
     os.system(f'netsh interface ip add dns name="{interface}"  {dns.dns2} index="2"')
     if ui.flush_checkbox.isChecked():
         os.system("ipconfig /flushdns")
+        ui.log.append("Successfully flushed the DNS Resolver Cache.")
     else:
         pass
 
 
 def flush():
     os.system("ipconfig /flushdns")
+    ui.log.append("Successfully flushed the DNS Resolver Cache.")
 
 
 def refresh_list():
