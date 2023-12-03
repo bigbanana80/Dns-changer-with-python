@@ -5,7 +5,7 @@ a = Analysis(
     ['main.py'],
     pathex=[],
     binaries=[],
-    datas=[],
+    datas=[('CP - Network and Internet.ico', '.')],
     hiddenimports=[],
     hookspath=[],
     hooksconfig={},
