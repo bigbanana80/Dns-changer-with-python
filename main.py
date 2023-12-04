@@ -275,6 +275,7 @@ class Ui_MainWindow(object):
         self.btn_activate.clicked.connect(activate)
         self.btn_flush.clicked.connect(flush)
         self.list_dns.clicked.connect(refresh_selected_dns_labels)
+        self.list_dns.doubleClicked.connect(activate)
 
 
 class config(Ui_MainWindow):
