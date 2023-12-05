@@ -10,12 +10,15 @@ import json
 from os import listdir
 from os.path import isfile, join
 import os
+import time
 
-# dirname = os.path.dirname(__file__)
-# filename = os.path.join(dirname, "Configs")
-# print(filename)
-# if not os.path.exists(filename):
-#     os.mkdir(filename)
+dirname = os.path.dirname(__file__)
+filename = os.path.join(dirname, "Configs")
+print(filename)
+if not os.path.exists(filename):
+    os.mkdir(filename)
+    time.sleep(3)
+
 #######
 # variables that i should not touch (prob) as they are for startup
 addrs = psutil.net_if_addrs()
@@ -301,7 +304,7 @@ def add():
 
 def edit():
     if ui.list_dns.currentItem() == None:
-        print("no item")
+        ui.log.append("ERROR: Select one DNS profile")
     else:
         conf = get_dns()
         dialog_ui.name_input.setText(conf.name)
@@ -311,13 +314,16 @@ def edit():
 
 
 def delete():
-    conf = get_dns()
-    try:
-        os.remove(f"Configs/{conf.name}.json")
-        ui.log.append(f"File deleted: {conf.name}")
-    except:
-        print("no such file")
-    refresh_list()
+    if ui.list_dns.currentItem() == None:
+        ui.log.append("ERROR: Select one DNS profile")
+    else:
+        conf = get_dns()
+        try:
+            os.remove(f"Configs/{conf.name}.json")
+            ui.log.append(f"File deleted: {conf.name}")
+        except:
+            print("no such file")
+        refresh_list()
 
 
 def get_dns():
@@ -329,15 +335,20 @@ def get_dns():
 
 
 def activate():
-    dns = get_dns()
-    interface = ui.comboBox.currentText()
-    os.system(f'netsh interface ip set dns name="{interface}" static  {dns.dns1}')
-    os.system(f'netsh interface ip add dns name="{interface}"  {dns.dns2} index="2"')
-    if ui.flush_checkbox.isChecked():
-        os.system("ipconfig /flushdns")
-        ui.log.append("Successfully flushed the DNS Resolver Cache.")
+    if ui.list_dns.currentItem() == None:
+        ui.log.append("ERROR: Select one DNS profile")
     else:
-        pass
+        dns = get_dns()
+        interface = ui.comboBox.currentText()
+        os.system(f'netsh interface ip set dns name="{interface}" static  {dns.dns1}')
+        os.system(
+            f'netsh interface ip add dns name="{interface}"  {dns.dns2} index="2"'
+        )
+        if ui.flush_checkbox.isChecked():
+            os.system("ipconfig /flushdns")
+            ui.log.append("Successfully flushed the DNS Resolver Cache.")
+        else:
+            pass
 
 
 def flush():
