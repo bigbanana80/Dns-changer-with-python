@@ -1,3 +1,12 @@
+__author__ = "Sepehr Aghajani"
+__copyright__ = "Copyright 2023, DNS changer with python Project"
+__credits__ = ["Sepehr Aghajani"]
+__license__ = "GPL"
+__version__ = "1.232"
+__maintainer__ = "Sepehr Aghajani"
+__email__ = "sepehra90@gmail.com"
+__status__ = "Finished"
+
 import token
 from PyQt5 import QtCore, QtGui, QtWidgets
 import PyQt5
