@@ -260,7 +260,9 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "DNS Changer by Red Mage"))
+        MainWindow.setWindowTitle(
+            _translate("MainWindow", "DNS Changer by Red Mage v1.25")
+        )
         self.list_dns.setSortingEnabled(True)
         __sortingEnabled = self.list_dns.isSortingEnabled()
         self.list_dns.setSortingEnabled(False)
