@@ -21,12 +21,12 @@ from os.path import isfile, join
 import os
 import time
 
-dirname = os.path.dirname(__file__)
-filename = os.path.join(dirname, "Configs\\")
-print(filename)
-if not os.path.exists(filename):
-    os.mkdir(filename)
-    time.sleep(3)
+# dirname = os.path.dirname(__file__)
+# filename = os.path.join(dirname, "Configs\\")
+# print(filename)
+# if not os.path.exists(filename):
+#     os.mkdir(filename)
+#     time.sleep(3)
 
 #######
 # variables that i should not touch (prob) as they are for startup
