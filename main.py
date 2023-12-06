@@ -32,6 +32,8 @@ import time
 # variables that i should not touch (prob) as they are for startup
 addrs = psutil.net_if_addrs()
 configs = [f for f in listdir("Configs") if isfile(join("Configs", f))]
+with open("settings.json", "r") as file:
+    settings = json.loads(file.read())
 
 
 class Ui_Dialog(object):
@@ -407,9 +409,13 @@ if __name__ == "__main__":
         ui.comboBox.addItem(x)
     ui.comboBox.setCurrentText("Wi-Fi")
 
+    if settings["autoflush"] == "True":
+        ui.flush_checkbox.setChecked(True)
+
     ui.list_dns.clear()
     for x in configs:
         ui.list_dns.addItem(os.path.splitext(x)[0])
+
     refresh_active_dns_labels()
     timer = QtCore.QTimer()
     timer.timeout.connect(refresh_active_dns_labels)
