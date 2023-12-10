@@ -108,9 +108,9 @@ class Ui_Dialog(object):
         refresh_list()
 
     def clear(self):
-        dialog_ui.dns1_input.clear()
-        dialog_ui.dns2_input.clear()
-        dialog_ui.name_input.clear()
+        self.dns1_input.clear()
+        self.dns2_input.clear()
+        self.name_input.clear()
 
 
 # the main window frame
