@@ -21,12 +21,15 @@ from os.path import isfile, join
 import os
 import time
 
-# dirname = os.path.dirname(__file__)
-# filename = os.path.join(dirname, "Configs\\")
-# print(filename)
-# if not os.path.exists(filename):
-#     os.mkdir(filename)
-#     time.sleep(3)
+default_settings = {"autoflush": "True"}
+dirname = os.path.dirname(sys.argv[0])
+filename = os.path.join(dirname, "Configs\\")
+print(filename)
+if not os.path.exists(filename):
+    os.mkdir(filename)
+if not os.path.exists("settings.json"):
+    with open("settings.json", "w") as file:
+        json.dump(default_settings, file, indent=6)
 
 #######
 # variables that i should not touch (prob) as they are for startup
@@ -263,7 +266,7 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(
-            _translate("MainWindow", "DNS Changer by Red Mage v1.27")
+            _translate("MainWindow", "DNS Changer by Red Mage v1.28")
         )
         self.list_dns.setSortingEnabled(True)
         __sortingEnabled = self.list_dns.isSortingEnabled()
