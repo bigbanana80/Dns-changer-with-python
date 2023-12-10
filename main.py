@@ -1,3 +1,4 @@
+# informations
 __author__ = "Sepehr Aghajani"
 __copyright__ = "Copyright 2023, DNS changer with python Project"
 __credits__ = ["Sepehr Aghajani"]
@@ -7,24 +8,21 @@ __maintainer__ = "Sepehr Aghajani"
 __email__ = "sepehra90@gmail.com"
 __status__ = "Finished"
 
-import token
+# imports
 from PyQt5 import QtCore, QtGui, QtWidgets
-import PyQt5
 import dns.resolver
-
-#######
 import sys
 import psutil
 import json
 from os import listdir
 from os.path import isfile, join
 import os
-import time
 
+
+# this code block fix 2 startup errors that can occur if the configs folder and settings.json are deleted somehow
 default_settings = {"autoflush": "True"}
 dirname = os.path.dirname(sys.argv[0])
 filename = os.path.join(dirname, "Configs\\")
-print(filename)
 if not os.path.exists(filename):
     os.mkdir(filename)
 if not os.path.exists("settings.json"):
@@ -39,6 +37,7 @@ with open("settings.json", "r") as file:
     settings = json.loads(file.read())
 
 
+# the dialogbox that apears when you click edit or add
 class Ui_Dialog(object):
     def setup_dialogUi(self, Dialog):
         Dialog.setObjectName("Dialog")
@@ -114,6 +113,7 @@ class Ui_Dialog(object):
         dialog_ui.name_input.clear()
 
 
+# the main window frame
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
@@ -266,7 +266,7 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(
-            _translate("MainWindow", "DNS Changer by Red Mage v1.28")
+            _translate("MainWindow", "DNS Changer by Red Mage v1.29")
         )
         self.list_dns.setSortingEnabled(True)
         __sortingEnabled = self.list_dns.isSortingEnabled()
@@ -298,6 +298,7 @@ class Ui_MainWindow(object):
         self.flush_checkbox.clicked.connect(flush_checkbox_state)
 
 
+# the DNS class that manage dns json files
 class config(Ui_MainWindow):
     def __init__(self, name: str, dns1: str, dns2: str) -> None:
         self.name = name
