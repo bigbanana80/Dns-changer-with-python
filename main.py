@@ -263,7 +263,7 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(
-            _translate("MainWindow", "DNS Changer by Red Mage v1.25")
+            _translate("MainWindow", "DNS Changer by Red Mage v1.27")
         )
         self.list_dns.setSortingEnabled(True)
         __sortingEnabled = self.list_dns.isSortingEnabled()
@@ -292,6 +292,7 @@ class Ui_MainWindow(object):
         self.btn_flush.clicked.connect(flush)
         self.list_dns.clicked.connect(refresh_selected_dns_labels)
         self.list_dns.doubleClicked.connect(activate)
+        self.flush_checkbox.clicked.connect(flush_checkbox_state)
 
 
 class config(Ui_MainWindow):
@@ -386,6 +387,18 @@ def refresh_active_dns_labels():
     dns_resolver = dns.resolver.Resolver()
     ui.Active_dns1.setText(dns_resolver.nameservers[0])
     ui.Active_dns2.setText(dns_resolver.nameservers[1])
+
+
+def flush_checkbox_state():
+    with open("settings.json", "r") as file:
+        sett = json.load(file)
+        if ui.flush_checkbox.isChecked():
+            sett["autoflush"] = "True"
+        else:
+            sett["autoflush"] = "False"
+    # print(sett)
+    with open("settings.json", "w") as file:
+        file = json.dump(sett, file, indent=6)
 
 
 if __name__ == "__main__":
