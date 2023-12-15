@@ -116,6 +116,7 @@ class Ui_Dialog(object):
 # the main window frame
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
+        # MainWindow.keyPressEvent = self.keyPressEvent
         MainWindow.setObjectName("MainWindow")
         MainWindow.setWindowModality(QtCore.Qt.NonModal)
         MainWindow.setEnabled(True)
@@ -266,7 +267,7 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(
-            _translate("MainWindow", "DNS Changer by Red Mage v1.30")
+            _translate("MainWindow", "DNS Changer by Red Mage v1.31")
         )
         self.list_dns.setSortingEnabled(True)
         __sortingEnabled = self.list_dns.isSortingEnabled()
@@ -285,6 +286,18 @@ class Ui_MainWindow(object):
         self.Active_dns2.setText(_translate("MainWindow", "DNS 2"))
         self.flush_checkbox.setText(_translate("MainWindow", "Auto Flush"))
         self.btn_delete.setText(_translate("MainWindow", "DeL"))
+        # shortcuts
+        shortcut = QtGui.QKeySequence(QtCore.Qt.Key.Key_A)
+        self.shortcut = QtWidgets.QShortcut(shortcut, self.btn_add)
+        self.shortcut.activated.connect(add)
+
+        shortcut = QtGui.QKeySequence(QtCore.Qt.Key.Key_E)
+        self.shortcut = QtWidgets.QShortcut(shortcut, self.btn_edit)
+        self.shortcut.activated.connect(edit)
+
+        shortcut = QtGui.QKeySequence(QtCore.Qt.Key.Key_Delete)
+        self.shortcut = QtWidgets.QShortcut(shortcut, self.btn_delete)
+        self.shortcut.activated.connect(delete)
 
     def connections(self):
         # signals #
@@ -296,6 +309,19 @@ class Ui_MainWindow(object):
         self.list_dns.clicked.connect(refresh_selected_dns_labels)
         self.list_dns.doubleClicked.connect(activate)
         self.flush_checkbox.clicked.connect(flush_checkbox_state)
+
+    # def keyPressEvent(self, event):
+    #     if event.key() == QtCore.Qt.Key.Key_Delete:
+    #         delete()
+    #     elif event.key() == QtCore.Qt.Key.Key_E:
+    #         edit()
+    #     elif event.key() == QtCore.Qt.Key.Key_E + QtCore.Qt.Key.Key_Control:
+    #         edit()
+    #     elif event.key() == QtCore.Qt.Key.Key_A:
+    #         activate()
+    #     elif event.key() == QtCore.Qt.Key.Key_A + QtCore.Qt.Key.Key_Shift:
+    #         activate()
+    #     event.accept()
 
 
 # the DNS class that manage dns json files
