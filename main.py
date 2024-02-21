@@ -1,4 +1,5 @@
-# informations
+# information
+""" my info !
 __author__ = "Sepehr Aghajani"
 __copyright__ = "Copyright 2023, DNS changer with python Project"
 __credits__ = ["Sepehr Aghajani"]
@@ -7,6 +8,7 @@ __version__ = "1.232"
 __maintainer__ = "Sepehr Aghajani"
 __email__ = "sepehra90@gmail.com"
 __status__ = "Finished"
+"""
 
 # imports
 from PyQt5 import QtCore, QtGui, QtWidgets
@@ -18,26 +20,26 @@ from os import listdir
 from os.path import isfile, join
 import os
 
-
+SETTINGS = "settings.json"
 # this code block fix 2 startup errors that can occur if the configs folder and settings.json are deleted somehow
 default_settings = {"autoflush": "True"}
 dirname = os.path.dirname(sys.argv[0])
 filename = os.path.join(dirname, "Configs\\")
 if not os.path.exists(filename):
     os.mkdir(filename)
-if not os.path.exists("settings.json"):
-    with open("settings.json", "w") as file:
+if not os.path.exists(SETTINGS):
+    with open(SETTINGS, "w") as file:
         json.dump(default_settings, file, indent=6)
 
 #######
 # variables that i should not touch (prob) as they are for startup
 addrs = psutil.net_if_addrs()
 configs = [f for f in listdir("Configs") if isfile(join("Configs", f))]
-with open("settings.json", "r") as file:
+with open(SETTINGS, "r") as file:
     settings = json.loads(file.read())
 
 
-# the dialogbox that apears when you click edit or add
+# the dialog box that appears when you click edit or add
 class Ui_Dialog(object):
     def setup_dialogUi(self, Dialog):
         Dialog.setObjectName("Dialog")
@@ -267,7 +269,7 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(
-            _translate("MainWindow", "DNS Changer by Red Mage v1.31")
+            _translate("MainWindow", "DNS Changer by Red Mage v1.32")
         )
         self.list_dns.setSortingEnabled(True)
         __sortingEnabled = self.list_dns.isSortingEnabled()
@@ -391,8 +393,6 @@ def activate():
         if ui.flush_checkbox.isChecked():
             os.system("ipconfig /flushdns")
             ui.log.append("Successfully flushed the DNS Resolver Cache.")
-        else:
-            pass
 
 
 def flush():
@@ -420,14 +420,14 @@ def refresh_active_dns_labels():
 
 
 def flush_checkbox_state():
-    with open("settings.json", "r") as file:
+    with open(SETTINGS, "r") as file:
         sett = json.load(file)
         if ui.flush_checkbox.isChecked():
             sett["autoflush"] = "True"
         else:
             sett["autoflush"] = "False"
     # print(sett)
-    with open("settings.json", "w") as file:
+    with open(SETTINGS, "w") as file:
         file = json.dump(sett, file, indent=6)
 
 
