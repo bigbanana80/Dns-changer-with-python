@@ -20,6 +20,7 @@ from os import listdir
 from os.path import isfile, join
 import os
 
+
 SETTINGS = "settings.json"
 # this code block fix 2 startup errors that can occur if the configs folder and settings.json are deleted somehow
 default_settings = {"autoflush": "True"}

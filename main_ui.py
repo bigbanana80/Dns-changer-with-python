@@ -64,34 +64,42 @@ class Ui_MainWindow(object):
         MainWindow.setContextMenuPolicy(QtCore.Qt.DefaultContextMenu)
         MainWindow.setAcceptDrops(False)
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("../../../Users/PC/OneDrive/Pictures/Icons/Windows office pro/CP - Network and Internet.ico"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(
+            QtGui.QPixmap(
+                "../../../Users/PC/OneDrive/Pictures/Icons/Windows office pro/CP - Network and Internet.ico"
+            ),
+            QtGui.QIcon.Normal,
+            QtGui.QIcon.Off,
+        )
         MainWindow.setWindowIcon(icon)
         MainWindow.setAutoFillBackground(False)
-        MainWindow.setStyleSheet("QMainWindow{\n"
-"border: 2px solid black;\n"
-"background-color: black;\n"
-"}\n"
-"QPushButton{\n"
-"background-color:rgb(255, 255, 127);\n"
-"border: 2px solid black;\n"
-"border-radius:10px;\n"
-"}\n"
-"QPushButton:hover{\n"
-"background-color:rgb(179, 179, 0);\n"
-"}\n"
-"QPushButton:pressed{\n"
-"background-color:rgb(93, 93, 46);\n"
-"border-style:solid;\n"
-"border-width:2px;\n"
-"}\n"
-"\n"
-"QMainWindow{\n"
-"background-color:rgb(0, 0, 0);\n"
-"}\n"
-"\n"
-"QLabel{\n"
-"color: rgb(255, 255, 255);\n"
-"}")
+        MainWindow.setStyleSheet(
+            "QMainWindow{\n"
+            "border: 2px solid black;\n"
+            "background-color: black;\n"
+            "}\n"
+            "QPushButton{\n"
+            "background-color:rgb(255, 255, 127);\n"
+            "border: 2px solid black;\n"
+            "border-radius:10px;\n"
+            "}\n"
+            "QPushButton:hover{\n"
+            "background-color:rgb(179, 179, 0);\n"
+            "}\n"
+            "QPushButton:pressed{\n"
+            "background-color:rgb(93, 93, 46);\n"
+            "border-style:solid;\n"
+            "border-width:2px;\n"
+            "}\n"
+            "\n"
+            "QMainWindow{\n"
+            "background-color:rgb(0, 0, 0);\n"
+            "}\n"
+            "\n"
+            "QLabel{\n"
+            "color: rgb(255, 255, 255);\n"
+            "}"
+        )
         MainWindow.setTabShape(QtWidgets.QTabWidget.Rounded)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         font = QtGui.QFont()
@@ -115,10 +123,9 @@ class Ui_MainWindow(object):
         self.btn_add.setObjectName("btn_add")
         self.comboBox = QtWidgets.QComboBox(self.centralwidget)
         self.comboBox.setGeometry(QtCore.QRect(320, 20, 81, 22))
-        self.comboBox.setStyleSheet("QComboBox{\n"
-"border:1px;\n"
-"border-radius: 5px;\n"
-"}")
+        self.comboBox.setStyleSheet(
+            "QComboBox{\n" "border:1px;\n" "border-radius: 5px;\n" "}"
+        )
         self.comboBox.setObjectName("comboBox")
         self.btn_edit = QtWidgets.QPushButton(self.centralwidget)
         self.btn_edit.setGeometry(QtCore.QRect(320, 100, 81, 31))
@@ -140,9 +147,9 @@ class Ui_MainWindow(object):
         self.Active_dns2.setObjectName("Active_dns2")
         self.flush_checkbox = QtWidgets.QCheckBox(self.centralwidget)
         self.flush_checkbox.setGeometry(QtCore.QRect(320, 140, 70, 17))
-        self.flush_checkbox.setStyleSheet("QCheckBox{\n"
-"color: rgb(255, 255, 255);\n"
-"}")
+        self.flush_checkbox.setStyleSheet(
+            "QCheckBox{\n" "color: rgb(255, 255, 255);\n" "}"
+        )
         self.flush_checkbox.setObjectName("flush_checkbox")
         self.btn_delete = QtWidgets.QPushButton(self.centralwidget)
         self.btn_delete.setGeometry(QtCore.QRect(390, 100, 31, 31))
@@ -183,6 +190,7 @@ class Ui_MainWindow(object):
 
 if __name__ == "__main__":
     import sys
+
     app = QtWidgets.QApplication(sys.argv)
     MainWindow = QtWidgets.QMainWindow()
     ui = Ui_MainWindow()
